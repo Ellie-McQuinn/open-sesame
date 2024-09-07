@@ -15,11 +15,6 @@
   "license": "${license}",
   "icon": "${mod_id}.png",
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "com.example.examplemod.ExampleMod"
-    ]
-  },
   "mixins": [
     "${mod_id}.mixins.json"
   ],
