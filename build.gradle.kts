@@ -50,11 +50,10 @@ val modChangelog = providers.provider {
 
     buildString {
         appendLine(file("changelog.md").readText(Charsets.UTF_8).trimEnd())
-        appendLine()
+
         if (compareTag.isNotBlank()) {
+            appendLine()
             appendLine("A detailed changelog can be found [here](${Constants.COMPARE_URL}${compareTag}...${commitHash}).")
-        } else {
-            appendLine("A detailed changelog could not be made for this release, sorry.")
         }
     }
 }
