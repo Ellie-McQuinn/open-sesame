@@ -1,14 +1,13 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.example.examplemod.mixin",
+  "package": "dev.compasses.open_sesame.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
-  "client": [
-    "MixinTitleScreen"
+  "mixins": [
+    "OpenDoorsTogetherMixin"
   ],
-  "server": [],
   "injectors": {
     "defaultRequire": 1
   }
 }
+

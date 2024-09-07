@@ -3,37 +3,36 @@ package dev.compasses.multiloader
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 
 object Constants {
-    const val GROUP = "com.example.examplemod"
-    const val MOD_ID = "examplemod"
-    const val MOD_NAME = "Example Mod"
+    const val GROUP = "dev.compasses.open_sesame"
+    const val MOD_ID = "open_sesame"
+    const val MOD_NAME = "Open Sesame"
     const val MOD_VERSION = "1.0.0"
-    const val LICENSE = "CC0-1.0"
+    const val LICENSE = "PolyForm-Shield-1.0.0"
     const val DESCRIPTION = """
-        Prints some information at start up to test this template.
+        Open doors together; Open Sesame!
     """
 
-    const val HOMEPAGE = "https://www.curseforge.com/minecraft/mc-mods/example-mod"
-    const val ISSUE_TRACKER = "https://github.com/Ghost/example-mod/issues"
-    const val SOURCES_URL = "https://github.com/Ghost/example-mod"
+    const val HOMEPAGE = "https://www.curseforge.com/minecraft/mc-mods/open-sesame"
+    const val ISSUE_TRACKER = "https://github.com/quinn-semele/open-sesame/issues"
+    const val SOURCES_URL = "https://github.com/quinn-semele/open-sesame"
 
     @Suppress("RedundantNullableReturnType")
     val curseforgeProperties: CurseForgeProperties? = object : CurseForgeProperties() {
-        override val projectId = "000000"
-        override val projectSlug = "examplemod"
+        override val projectId = "1098166"
+        override val projectSlug = "open-sesame"
     }
 
     @Suppress("RedundantNullableReturnType")
     val modrinthProperties: ModrinthProperties? = object : ModrinthProperties() {
-        override val projectId: String = "000000"
+        override val projectId: String = "u40fRXlK"
     }
 
     const val PUBLISH_WEBHOOK_VARIABLE = "PUBLISH_WEBHOOK"
 
-    const val COMPARE_URL = "https://www.example.com/author/repo/compare/"
+    const val COMPARE_URL = "https://github.com/quinn-semele/open-sesame/compare/"
 
     val CONTRIBUTORS = linkedMapOf(
-        "Quinn Semele" to "Project Owner",
-        "Ellie Semele" to "Project Owner"
+        "Quinn Semele" to "Project Owner"
     )
 
     val CREDITS = linkedMapOf<String, String>(

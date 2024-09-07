@@ -19,9 +19,6 @@
       "icon": "${mod_id}.png"
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
-    "entrypoints": {
-      "main": "com.example.examplemod.ExampleMod"
-    },
     "depends": [
       {
         "id": "quilt_loader",
@@ -42,7 +39,6 @@
     ]
   },
   "mixin": [
-    "${mod_id}.mixins.json",
-    "${mod_id}.fabric.mixins.json"
+    "${mod_id}.mixins.json"
   ]
 }

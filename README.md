@@ -1,4 +1,5 @@
-# Mod Scaffold
+# Open Sesame
+A simple mod to open double doors.
 
 ## Quick Links for Development
 - [Update Gradle](./build.gradle.kts)

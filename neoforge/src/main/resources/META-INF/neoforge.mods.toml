@@ -1,4 +1,4 @@
-modLoader = "javafml"
+modLoader = "lowcodefml"
 loaderVersion = "${fml_version_constraint}"
 license = "${license}"
 issueTrackerURL = "${issue_tracker}"
@@ -13,8 +13,6 @@ authors = "${nf_authors}"
 description = "${description}"
 [[mixins]]
 config = "${mod_id}.mixins.json"
-[[mixins]]
-config = "${mod_id}.neoforge.mixins.json"
 [[dependencies.${mod_id}]]
 modId = "neoforge"
 type = "required" # can be: "required", "optional", "incompatible" or "discouraged"
