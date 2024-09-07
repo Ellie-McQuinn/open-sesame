@@ -8,6 +8,7 @@ version = "${version}"
 displayName = "${mod_name}"
 displayURL = "${homepage}"
 logoFile = "${mod_id}.png"
+logoBlur = false
 credits = "${credits}"
 authors = "${nf_authors}"
 description = "${description}"
