@@ -1,1 +1,1 @@
-- Initial release.
+- Fix fabric release accidentally having a null mixin entry.
