@@ -16,7 +16,7 @@
     "icon": "${mod_id}.png",
     "environment": "*",
     "mixins": [
-        "${mod_id}.mixins.json",
+        "${mod_id}.mixins.json"
     ],
     "depends": {
         "fabricloader": ">=${fabric_loader_version}",
