@@ -6,7 +6,7 @@ object Constants {
     const val GROUP = "dev.compasses.open_sesame"
     const val MOD_ID = "open_sesame"
     const val MOD_NAME = "Open Sesame"
-    const val MOD_VERSION = "1.0.1"
+    const val MOD_VERSION = "1.2.0.0"
     const val LICENSE = "MIT"
     const val DESCRIPTION = """
         Open doors together; Open Sesame!

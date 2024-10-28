@@ -1,1 +1,1 @@
-- Fix fabric release accidentally having a null mixin entry.
+- Update to 1.21.3, add another component to the version to track mc breaking changes vs mod breaking changes.
