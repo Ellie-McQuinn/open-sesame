@@ -2,15 +2,8 @@ import dev.compasses.multiloader.Constants
 import dev.compasses.multiloader.task.ProcessJsonTask
 
 plugins {
-    id("multiloader-loader")
+    id("multiloader-child")
     id("org.quiltmc.loom")
-}
-
-evaluationDependsOn(":thread")
-
-configurations {
-    create("threadJava") { isCanBeResolved = true }
-    create("threadResources") { isCanBeResolved = true }
 }
 
 dependencies {
@@ -21,25 +14,6 @@ dependencies {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${Constants.PARCHMENT_MINECRAFT}:${Constants.PARCHMENT_RELEASE}@zip")
     })
-
-    compileOnly(project(":thread"))
-
-    "threadJava"(project(path=":thread", configuration="threadJava"))
-    "threadResources"(project(path=":thread", configuration="threadResources"))
-}
-
-tasks {
-    "compileJava"(JavaCompile::class) {
-        dependsOn(configurations.getByName("threadJava"))
-        source(configurations.getByName("threadJava"))
-    }
-
-    processResources {
-        dependsOn(configurations.getByName("threadResources"))
-        from(configurations.getByName("threadResources")) {
-            exclude("fabric.mod.json")
-        }
-    }
 }
 
 loom {
@@ -80,16 +54,4 @@ tasks.register("processJson", ProcessJsonTask::class) {
 
 tasks.build {
     dependsOn("processJson")
-}
-
-configurations.configureEach configureConfiguration@ {
-    if (name == "modRuntimeClasspathMainMapped") {
-        dependencies.configureEach {
-            if (name == "fabric-loader" && group == "net.fabricmc") {
-                this@configureConfiguration.exclude(group = group, module = name)
-            } else if (name == "quilt-loader" && group == "org.quiltmc") {
-                this@configureConfiguration.exclude(group = group, module = name)
-            }
-        }
-    }
 }

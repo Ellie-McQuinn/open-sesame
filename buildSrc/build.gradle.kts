@@ -30,6 +30,7 @@ repositories {
         filter {
             includeGroup("org.quiltmc")
             includeGroup("org.quiltmc.loom")
+            includeGroup("org.quiltmc.parsers")
         }
     }
 }
@@ -42,7 +43,9 @@ kotlin {
 }
 
 dependencies {
-    implementation(group = "net.neoforged", name = "moddev-gradle", version = "1.0.15") // https://projects.neoforged.net/neoforged/moddevgradle/
-    implementation(group = "org.quiltmc.loom", name = "org.quiltmc.loom.gradle.plugin", version = "1.7.4") // https://quiltmc.org/en/usage/latest-versions/
+    implementation(group = "net.neoforged", name = "moddev-gradle", version = "1.0.21") // https://projects.neoforged.net/neoforged/moddevgradle/
+    implementation(group = "org.quiltmc.loom", name = "org.quiltmc.loom.gradle.plugin", version = "1.8.3") // https://quiltmc.org/en/usage/latest-versions/
     implementation(group = "com.google.code.gson", name = "gson", version = "2.11.0")
+
+    implementation(group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version = "2.0.21")
 }

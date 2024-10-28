@@ -47,27 +47,29 @@ object Constants {
     const val JETBRAIN_ANNOTATIONS_VERSION = "24.1.0"
     const val FINDBUGS_VERSION = "3.0.2"
 
-    const val MIXIN_VERSION = "0.8.5"
-    const val MIXIN_EXTRAS_VERSION = "0.3.5"
+    const val MIXIN_VERSION = "0.8.7"
+    const val MIXIN_EXTRAS_VERSION = "0.4.1"
 
-    const val MINECRAFT_VERSION = "1.21"
-    const val FL_MINECRAFT_CONSTRAINT = ">=1.21- <1.22"
-    const val NF_MINECRAFT_CONSTRAINT = "[1.21, 1.22)"
-    val SUPPORTED_MINECRAFT_VERSIONS = listOf(MINECRAFT_VERSION, "1.21.1")
+    const val MINECRAFT_VERSION = "1.21.3"
+    const val FL_MINECRAFT_CONSTRAINT = ">=1.21.3- <1.22"
+    const val NF_MINECRAFT_CONSTRAINT = "[1.21.3, 1.22)"
+    val SUPPORTED_MINECRAFT_VERSIONS = listOf(MINECRAFT_VERSION)
 
     // https://parchmentmc.org/docs/getting-started#choose-a-version/
     const val PARCHMENT_MINECRAFT = "1.21"
-    const val PARCHMENT_RELEASE = "2024.07.07"
+    const val PARCHMENT_RELEASE = "2024.07.28"
 
     // https://fabricmc.net/develop/
-    const val FABRIC_API_VERSION = "0.102.0+1.21"
-    const val FABRIC_LOADER_VERSION = "0.15.11"
+    const val FABRIC_API_VERSION = "0.106.1+1.21.3"
+    const val FABRIC_KOTLIN_VERSION = "1.12.3+kotlin.2.0.21" // todo: replace with Quilt Kotlin Libraries; Not the latest to keep in sync with KFF
+    const val FABRIC_LOADER_VERSION = "0.16.7"
 
     // https://quiltmc.org/en/usage/latest-versions/
-    const val QUILT_API_VERSION = "11.0.0-alpha.3+0.100.7-1.21"
+    const val QUILT_API_VERSION = "11.0.0-alpha.3+0.102.0-1.21"
     const val QUILT_LOADER_VERSION = "0.26.3"
 
-    const val NEOFORM_VERSION = "1.21-20240613.152323" // // https://projects.neoforged.net/neoforged/neoform/
-    const val NEOFORGE_VERSION = "21.0.143" // https://projects.neoforged.net/neoforged/neoforge/
+    const val NEOFORM_VERSION = "1.21.3-20241023.131943" // // https://projects.neoforged.net/neoforged/neoform/
+    const val NEOFORGE_VERSION = "21.3.3-beta" // https://projects.neoforged.net/neoforged/neoforge/
+    const val NEOFORGE_KOTLIN_VERSION = "5.6.0" // todo: we really ought to not use this, replace with own fork of Quilt Kotlin Libraries
     const val FML_CONSTRAINT = "[4,)" // https://projects.neoforged.net/neoforged/fancymodloader/
 }

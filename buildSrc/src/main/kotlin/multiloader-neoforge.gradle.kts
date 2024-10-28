@@ -3,11 +3,9 @@ import dev.compasses.multiloader.Constants
 import dev.compasses.multiloader.task.ProcessJsonTask
 
 plugins {
-    id("multiloader-loader")
+    id("multiloader-child")
     id("net.neoforged.moddev")
 }
-
-evaluationDependsOn(":common")
 
 neoForge {
     version = Constants.NEOFORGE_VERSION

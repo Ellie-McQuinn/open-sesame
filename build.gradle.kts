@@ -20,8 +20,8 @@ plugins {
 // To update run the :wrapper task, update values here as required from the gradle site below.
 // https://gradle.org/release-checksums/
 tasks.wrapper {
-    gradleVersion = "8.10"
-    distributionSha256Sum = "5b9c5eb3f9fc2c94abaea57d90bd78747ca117ddbbf96c859d3741181a12bf2a"
+    gradleVersion = "8.10.2"
+    distributionSha256Sum = "31c55713e40233a8303827ceb42ca48a47267a0ad4bab9177123121e71524c26"
     distributionType = Wrapper.DistributionType.BIN
 }
 
@@ -41,8 +41,8 @@ val projectsToPublish = mapOf(
     "Fabric" to findProject(":fabric"),
     "Quilt" to findProject(":quilt")
 ).filter { it.value != null }
- .mapValues { (_, loader) -> loader!! }
- .filter { it.value.name in requestedProjects }
+    .mapValues { (_, loader) -> loader!! }
+    .filter { it.value.name in requestedProjects }
 
 val modChangelog = providers.provider {
     val compareTag = ProcessGroovyMethods.getText(ProcessGroovyMethods.execute("git describe --tags --abbrev=0")).trim()
@@ -88,11 +88,11 @@ publishMods {
         ReleaseType.STABLE
     }
 
-    dryRun = providers.environmentVariable("MULTILOADER_DRY_RUN").map { true }.orElse(false)
+    dryRun = providers.environmentVariable("MULTILOADER_DRY_RUN").map { it == "true" }.orElse(false)
 }
 
 val publishTasks = projectsToPublish.map { (name, loader) ->
-    name to buildList {
+    name to buildList<NamedDomainObjectProvider<out Platform>> {
         Constants.curseforgeProperties?.run {
             add(publishMods.curseforge("CurseForge$name") {
                 from(curseforgeOptions!!)
@@ -108,7 +108,7 @@ val publishTasks = projectsToPublish.map { (name, loader) ->
                     optional(*multiloaderExt.getDependencyIds(UploadTarget.CURSEFORGE, DependencyType.OPTIONAL).toTypedArray())
                     requires(*multiloaderExt.getDependencyIds(UploadTarget.CURSEFORGE, DependencyType.REQUIRED).toTypedArray())
                 }
-            } as NamedDomainObjectProvider<Platform>)
+            })
         }
 
         Constants.modrinthProperties?.run {
@@ -126,7 +126,7 @@ val publishTasks = projectsToPublish.map { (name, loader) ->
                     optional(*multiloaderExt.getDependencyIds(UploadTarget.MODRINTH, DependencyType.OPTIONAL).toTypedArray())
                     requires(*multiloaderExt.getDependencyIds(UploadTarget.MODRINTH, DependencyType.REQUIRED).toTypedArray())
                 }
-            } as NamedDomainObjectProvider<Platform>)
+            })
         }
     }
 }.toMap()

@@ -3,10 +3,13 @@ import dev.compasses.multiloader.extension.DependencyType
 import dev.compasses.multiloader.extension.ModDependency
 import dev.compasses.multiloader.extension.MultiLoaderExtension
 import dev.compasses.multiloader.extension.RepositoryExclusions
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import java.net.URI
 
 plugins {
     `java-library`
+    kotlin("jvm")
 }
 
 group = Constants.GROUP
@@ -15,6 +18,13 @@ version = Constants.MOD_VERSION
 base.archivesName = "${Constants.MOD_ID}-${project.name}-${Constants.MINECRAFT_VERSION}"
 
 java.toolchain.languageVersion = Constants.JAVA_VERSION
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
+        languageVersion = KotlinVersion.KOTLIN_2_0
+    }
+}
 
 repositories {
     mavenCentral()
@@ -66,6 +76,18 @@ repositories {
             includeGroup("maven.modrinth")
         }
     }
+
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Kotlin for Forge Maven"
+                url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+            }
+        }
+        filter {
+            includeGroup("thedarkcolour")
+        }
+    }
 }
 
 dependencies {
@@ -88,6 +110,9 @@ tasks.jar {
 
     exclude("**/datagen/**")
     exclude(".cache/**")
+
+    rootDir.resolve("LICENSE").also { if (it.exists()) from(it) }
+    rootDir.resolve("LICENSE.md").also { if (it.exists()) from(it) }
 }
 
 tasks.processResources {
@@ -115,12 +140,14 @@ tasks.processResources {
 
         "fabric_loader_version" to Constants.FABRIC_LOADER_VERSION,
         "fabric_api_version" to Constants.FABRIC_API_VERSION,
+        "fabric_kotlin_version" to Constants.FABRIC_KOTLIN_VERSION,
 
         "quilt_loader_version" to Constants.QUILT_LOADER_VERSION,
         "quilt_api_version" to Constants.QUILT_API_VERSION,
 
-        "neoforge_version" to Constants.NEOFORGE_VERSION,
         "fml_version_constraint" to Constants.FML_CONSTRAINT,
+        "neoforge_version" to Constants.NEOFORGE_VERSION,
+        "neoforge_kotlin_Version" to Constants.NEOFORGE_KOTLIN_VERSION
     )
     replacements.putAll(Constants.EXTRA_MOD_INFO_REPLACEMENTS)
 

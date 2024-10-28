@@ -1,11 +1,10 @@
 import dev.compasses.multiloader.Constants
 
 plugins {
-    id("multiloader-loader")
+    id("multiloader-parent")
+    id("multiloader-child")
     id("org.quiltmc.loom")
 }
-
-evaluationDependsOn(":common")
 
 dependencies {
     minecraft("com.mojang:minecraft:${Constants.MINECRAFT_VERSION}")
@@ -18,6 +17,10 @@ dependencies {
 
     modCompileOnly(modRuntimeOnly("net.fabricmc:fabric-loader:${Constants.FABRIC_LOADER_VERSION}")!!)
     modCompileOnly(modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${Constants.FABRIC_API_VERSION}")!!)
+
+    modImplementation(group = "net.fabricmc", name = "fabric-language-kotlin", version = Constants.FABRIC_KOTLIN_VERSION) {
+        exclude(group = "net.fabricmc", module = "fabric-loader")
+    }
 }
 
 fabricApi {
@@ -35,7 +38,6 @@ loom {
 
     @Suppress("UnstableApiUsage")
     mixin {
-        defaultRefmapName = "${Constants.MOD_ID}.refmap.json"
         useLegacyMixinAp = false
     }
 
@@ -57,32 +59,6 @@ loom {
         named("datagen") {
             configName = "Thread Data"
             isIdeConfigGenerated = true
-        }
-    }
-}
-
-configurations {
-    create("threadJava") { isCanBeResolved = false; isCanBeConsumed = true }
-    create("threadResources") { isCanBeResolved = false; isCanBeConsumed = true }
-}
-
-afterEvaluate {
-    with(sourceSets.main.get()) {
-        artifacts {
-            java.sourceDirectories.forEach { add("threadJava", it) }
-            resources.sourceDirectories.forEach { add("threadResources", it) }
-        }
-    }
-}
-
-configurations.configureEach configureConfiguration@ {
-    if (name == "modRuntimeClasspathMainMapped") {
-        dependencies.configureEach {
-            if (name == "fabric-loader" && group == "net.fabricmc") {
-                this@configureConfiguration.exclude(group = group, module = name)
-            } else if (name == "quilt-loader" && group == "org.quiltmc") {
-                this@configureConfiguration.exclude(group = group, module = name)
-            }
         }
     }
 }
