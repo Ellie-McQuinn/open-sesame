@@ -7,7 +7,7 @@ object Constants {
     const val MOD_ID = "open_sesame"
     const val MOD_NAME = "Open Sesame"
     const val MOD_VERSION = "1.0.1"
-    const val LICENSE = "PolyForm-Shield-1.0.0"
+    const val LICENSE = "MIT"
     const val DESCRIPTION = """
         Open doors together; Open Sesame!
     """
