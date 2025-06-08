@@ -6,19 +6,19 @@ object Constants {
     const val GROUP = "dev.compasses.open_sesame"
     const val MOD_ID = "open_sesame"
     const val MOD_NAME = "Open Sesame"
-    const val MOD_VERSION = "1.0.1"
+    const val MOD_VERSION = "1.0.2"
     const val LICENSE = "MIT"
     const val DESCRIPTION = """
         Open doors together; Open Sesame!
     """
 
     const val HOMEPAGE = "https://www.curseforge.com/minecraft/mc-mods/open-sesame"
-    const val ISSUE_TRACKER = "https://github.com/quinn-semele/open-sesame/issues"
-    const val SOURCES_URL = "https://github.com/quinn-semele/open-sesame"
+    const val ISSUE_TRACKER = "https://github.com/Ellie-McQuinn/open-sesame/issues"
+    const val SOURCES_URL = "https://github.com/Ellie-McQuinn/open-sesame"
 
     @Suppress("RedundantNullableReturnType")
     val curseforgeProperties: CurseForgeProperties? = object : CurseForgeProperties() {
-        override val projectId = "1098166"
+        override val projectId = "1282518"
         override val projectSlug = "open-sesame"
     }
 
@@ -29,10 +29,10 @@ object Constants {
 
     const val PUBLISH_WEBHOOK_VARIABLE = "PUBLISH_WEBHOOK"
 
-    const val COMPARE_URL = "https://github.com/quinn-semele/open-sesame/compare/"
+    const val COMPARE_URL = "https://github.com/Ellie-McQuinn/open-sesame/compare/"
 
     val CONTRIBUTORS = linkedMapOf(
-        "Quinn Semele" to "Project Owner"
+        "Ellie McQuinn / Toybox System" to "Project Owner"
     )
 
     val CREDITS = linkedMapOf<String, String>(

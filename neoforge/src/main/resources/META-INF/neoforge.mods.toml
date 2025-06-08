@@ -2,6 +2,7 @@ modLoader = "lowcodefml"
 loaderVersion = "${fml_version_constraint}"
 license = "${license}"
 issueTrackerURL = "${issue_tracker}"
+
 [[mods]]
 modId = "${mod_id}"
 version = "${version}"
@@ -12,14 +13,17 @@ logoBlur = false
 credits = "${credits}"
 authors = "${nf_authors}"
 description = "${description}"
+
 [[mixins]]
 config = "${mod_id}.mixins.json"
+
 [[dependencies.${mod_id}]]
 modId = "neoforge"
-type = "required" # can be: "required", "optional", "incompatible" or "discouraged"
+type = "required"
 versionRange = "[${neoforge_version},)"
 ordering = "NONE"
 side = "BOTH"
+
 [[dependencies.${mod_id}]]
 modId = "minecraft"
 type = "required"
