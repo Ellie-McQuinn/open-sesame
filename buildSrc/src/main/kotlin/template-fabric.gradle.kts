@@ -13,6 +13,8 @@ dependencies {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${Constants.PARCHMENT_MINECRAFT}:${Constants.PARCHMENT_RELEASE}@zip")
     })
+
+    modImplementation("net.fabricmc:fabric-loader:${Constants.FABRIC_LOADER_VERSION}")
 }
 
 fabricApi {
