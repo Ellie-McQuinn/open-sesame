@@ -1,3 +1,3 @@
 plugins {
-    id("multiloader-common")
+    id("template-common")
 }

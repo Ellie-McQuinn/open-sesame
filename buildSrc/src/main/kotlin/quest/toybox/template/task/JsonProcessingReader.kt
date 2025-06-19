@@ -1,9 +1,10 @@
-package dev.compasses.multiloader.task
+package quest.toybox.template.task
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.Strictness
 import org.apache.tools.ant.filters.BaseParamFilterReader
 import org.apache.tools.ant.types.Parameterizable
 import java.io.Reader
@@ -11,7 +12,7 @@ import java.io.StringReader
 
 class JsonProcessingReader(private val reader : Reader) : BaseParamFilterReader(reader), Parameterizable {
     companion object {
-        val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
+        val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().setStrictness(Strictness.STRICT).create()
     }
 
     override fun read(): Int {

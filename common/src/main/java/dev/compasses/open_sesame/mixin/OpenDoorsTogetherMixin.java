@@ -2,11 +2,12 @@ package dev.compasses.open_sesame.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -24,11 +25,11 @@ import java.util.stream.Stream;
 @Mixin(DoorBlock.class)
 public abstract class OpenDoorsTogetherMixin {
     @Inject(
-            method = "updateShape(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;",
+            method = "updateShape(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/world/level/ScheduledTickAccess;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/util/RandomSource;)Lnet/minecraft/world/level/block/state/BlockState;",
             at = @At("RETURN"),
             cancellable = true
     )
-    private void openSesame$updateDoorsTogether(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos, CallbackInfoReturnable<BlockState> cir) {
+    private void openSesame$updateDoorsTogether(BlockState state, LevelReader level, ScheduledTickAccess tickScheduler, BlockPos currentPos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random, CallbackInfoReturnable<BlockState> cir) {
         if (!(facingState.getBlock() instanceof DoorBlock)) {
             return;
         }
@@ -61,14 +62,14 @@ public abstract class OpenDoorsTogetherMixin {
     }
 
     @Inject(
-            method = "onExplosionHit(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/Explosion;Ljava/util/function/BiConsumer;)V",
+            method = "onExplosionHit(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/Explosion;Ljava/util/function/BiConsumer;)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/level/block/DoorBlock;setOpen(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Z)V"
             ),
             cancellable = true
     )
-    private void openSesame$jankDontOpenDoorOnWindCharge(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer, CallbackInfo ci) {
+    private void openSesame$jankDontOpenDoorOnWindCharge(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer, CallbackInfo ci) {
         DoorHingeSide doorHinge = state.getValue(BlockStateProperties.DOOR_HINGE);
         boolean hasUpdatingNeighbour = Stream.of(pos.east(), pos.west(), pos.north(), pos.south())
                 .map(level::getBlockState)

@@ -1,12 +1,14 @@
-import dev.compasses.multiloader.Constants
-import dev.compasses.multiloader.extension.DependencyType
-import dev.compasses.multiloader.extension.ModDependency
-import dev.compasses.multiloader.extension.MultiLoaderExtension
-import dev.compasses.multiloader.extension.RepositoryExclusions
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import quest.toybox.template.Constants
+import quest.toybox.template.extension.DependencyType
+import quest.toybox.template.extension.RepositoryExclusions
+import quest.toybox.template.extension.TemplateExtension
 import java.net.URI
 
 plugins {
     `java-library`
+    kotlin("jvm")
 }
 
 group = Constants.GROUP
@@ -14,8 +16,34 @@ version = Constants.MOD_VERSION
 
 base.archivesName = "${Constants.MOD_ID}-${project.name}-${Constants.MINECRAFT_VERSION}"
 
-java.toolchain.languageVersion = Constants.JAVA_VERSION
+java.toolchain {
+    languageVersion = Constants.JAVA_VERSION
+    vendor = JvmVendorSpec.MICROSOFT
+}
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
+        languageVersion = KotlinVersion.KOTLIN_2_1
+    }
+}
+
+dependencies {
+    compileOnly(group = "org.jetbrains", name = "annotations", version = Constants.JETBRAIN_ANNOTATIONS_VERSION)
+}
+
+tasks {
+    withType<JavaCompile>().configureEach {
+        options.release = Constants.JAVA_VERSION.asInt()
+        options.encoding = "UTF-8"
+    }
+
+    jar {
+        archiveVersion = Constants.getModVersion()
+    }
+}
+
+// region Shared Repositories
 repositories {
     mavenCentral()
 
@@ -66,13 +94,22 @@ repositories {
             includeGroup("maven.modrinth")
         }
     }
-}
 
-dependencies {
-    compileOnly(group = "org.jetbrains", name = "annotations", version = Constants.JETBRAIN_ANNOTATIONS_VERSION)
-    compileOnly(group = "com.google.code.findbugs", name = "jsr305", version = Constants.FINDBUGS_VERSION)
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Kotlin for Forge Maven"
+                url = uri("https://thedarkcolour.github.io/KotlinForForge/")
+            }
+        }
+        filter {
+            includeGroup("thedarkcolour")
+        }
+    }
 }
+// endregion
 
+// region Add Information to Jar
 tasks.jar {
     manifest {
         attributes(mapOf(
@@ -88,6 +125,8 @@ tasks.jar {
 
     exclude("**/datagen/**")
     exclude(".cache/**")
+
+    rootDir.resolve("LICENSE").also { if (it.exists()) from(it) }
 }
 
 tasks.processResources {
@@ -99,7 +138,6 @@ tasks.processResources {
         "license" to Constants.LICENSE,
         "description" to Constants.DESCRIPTION.trimIndent().trim().replace("\n", "\\n"),
 
-        "fl_authors" to Constants.CONTRIBUTORS.keys.joinToString("\", \""),
         "nf_authors" to Constants.CONTRIBUTORS.keys.joinToString(","),
 
         "credits" to Constants.CREDITS.map { "${it.key} - ${it.value}" }.joinToString(",\n"),
@@ -115,29 +153,29 @@ tasks.processResources {
 
         "fabric_loader_version" to Constants.FABRIC_LOADER_VERSION,
         "fabric_api_version" to Constants.FABRIC_API_VERSION,
+        "fabric_kotlin_version" to Constants.FABRIC_KOTLIN_VERSION.substringBefore('+'),
 
-        "quilt_loader_version" to Constants.QUILT_LOADER_VERSION,
-        "quilt_api_version" to Constants.QUILT_API_VERSION,
-
-        "neoforge_version" to Constants.NEOFORGE_VERSION,
         "fml_version_constraint" to Constants.FML_CONSTRAINT,
+        "neoforge_version" to Constants.NEOFORGE_VERSION,
+        "neoforge_kotlin_version" to Constants.NEOFORGE_KOTLIN_VERSION
     )
     replacements.putAll(Constants.EXTRA_MOD_INFO_REPLACEMENTS)
 
     inputs.properties(replacements)
-    filesMatching(listOf("fabric.mod.json", "quilt.mod.json", "META-INF/neoforge.mods.toml", "*.mixins.json", "*.mcmeta")) {
+
+    filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "*.mixins.json", "*.mcmeta")) {
         expand(replacements)
     }
 }
+// endregion
 
-val multiLoaderExtension = extensions.create("multiloader", MultiLoaderExtension::class, project.objects.domainObjectContainer(ModDependency::class) { name ->
-    ModDependency(name, project.objects)
-})
+// region Template Extension + Dep Management
+val templateExtension = extensions.create("template", TemplateExtension::class)
 
 project.afterEvaluate {
     val repositories: MutableMap<URI, RepositoryExclusions> = mutableMapOf()
 
-    for (mod in multiLoaderExtension.mods) {
+    for (mod in templateExtension.mods) {
         for (repository in mod.getRepositories()) {
             if (repository.key in repositories) {
                 repositories[repository.key]!!.groups.addAll(repository.value.groups)
@@ -176,7 +214,7 @@ project.afterEvaluate {
     }
 
     dependencies {
-        for (mod in multiLoaderExtension.mods) {
+        for (mod in templateExtension.mods) {
             mod.getArtifacts().forEach {
                 it.invoke(this, mod.type.get() == DependencyType.REQUIRED || mod.enabledAtRuntime.get())
             }
@@ -184,10 +222,10 @@ project.afterEvaluate {
     }
 
     sourceSets.main.configure {
-        val directories = multiLoaderExtension.mods.filter { it.type.get() != DependencyType.DISABLED }
-            .map { it.sourceDirectory }
-            .filter { project.file(it).exists() }
+        val enabledMods = templateExtension.mods.filter { it.type.get() != DependencyType.DISABLED }
 
-        java.srcDirs(directories)
+        java.srcDirs(enabledMods.map { it.javaDirectory }.filter { project.file(it).exists() })
+        kotlin.srcDirs(enabledMods.map { it.kotlinDirectory }.filter { project.file(it).exists() })
     }
 }
+// endregion

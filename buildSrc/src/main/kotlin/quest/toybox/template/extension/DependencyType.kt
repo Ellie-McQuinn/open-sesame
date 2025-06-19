@@ -1,4 +1,4 @@
-package dev.compasses.multiloader.extension
+package quest.toybox.template.extension
 
 enum class DependencyType {
     REQUIRED,

@@ -1,3 +1,3 @@
 plugins {
-    id("multiloader-neoforge")
+    id("template-neoforge")
 }

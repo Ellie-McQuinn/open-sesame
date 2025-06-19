@@ -4,9 +4,7 @@
     "version": "${version}",
     "name": "${mod_name}",
     "description": "${description}",
-    "authors": [
-        "${fl_authors}"
-    ],
+    "authors": [ ],
     "contact": {
         "homepage": "${homepage}",
         "issues": "${issue_tracker}",

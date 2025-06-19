@@ -19,30 +19,33 @@ repositories {
             includeGroup("net.fabricmc")
         }
     }
+}
 
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "QuiltMC's Release Maven"
-                url = uri("https://maven.quiltmc.org/repository/release/")
-            }
-        }
-        filter {
-            includeGroup("org.quiltmc")
-            includeGroup("org.quiltmc.loom")
-        }
-    }
+java.toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+    vendor = JvmVendorSpec.MICROSOFT
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release = 21
 }
 
 kotlin {
     compilerOptions {
-        languageVersion = KotlinVersion.KOTLIN_2_0
-        apiVersion = KotlinVersion.KOTLIN_2_0
+        languageVersion = KotlinVersion.KOTLIN_2_1
+        apiVersion = KotlinVersion.KOTLIN_2_1
     }
 }
 
 dependencies {
-    implementation(group = "net.neoforged", name = "moddev-gradle", version = "1.0.15") // https://projects.neoforged.net/neoforged/moddevgradle/
-    implementation(group = "org.quiltmc.loom", name = "org.quiltmc.loom.gradle.plugin", version = "1.7.4") // https://quiltmc.org/en/usage/latest-versions/
-    implementation(group = "com.google.code.gson", name = "gson", version = "2.11.0")
+    // // https://projects.neoforged.net/neoforged/moddevgradle/
+    implementation(group = "net.neoforged", name = "moddev-gradle", version = "2.0.95")
+    // https://maven.fabricmc.net/net/fabricmc/fabric-loom/
+    implementation(group = "net.fabricmc", name = "fabric-loom", version = "1.10.5")
+    // https://plugins.gradle.org/plugin/me.modmuss50.mod-publish-plugin
+    implementation(group = "me.modmuss50.mod-publish-plugin", name = "me.modmuss50.mod-publish-plugin.gradle.plugin", version = "0.8.4")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation(group = "com.google.code.gson", name = "gson", version = "2.13.1")
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-gradle-plugin
+    implementation(group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version = "2.1.0")
 }
